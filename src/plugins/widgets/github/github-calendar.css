@@ -19,3 +19,20 @@ text.ContributionCalendar-label {
 .contrib-number {
     color: var(--color-calendar-graph-day-bg);
 }
+
+.GitHubWidget {
+    position: relative;
+}
+
+.GitHubMailStatus {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    z-index: 0;
+    width: 12px;
+    height: 12px;
+    color: #fff;
+    background-image: linear-gradient(#54a3ff, #006eed);
+    background-clip: padding-box;
+    border-radius: 50%;
+}

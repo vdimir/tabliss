@@ -1,12 +1,12 @@
 import { Config } from "../../types";
-import GitHubCalendarWidget from "./GitHub";
+import GitHubWidget from "./GitHub";
 import GitHubSettings from "./GitHubSettings";
 
 const config: Config = {
     key: "widget/github",
-    name: "GitHub Calendar",
-    description: "Shows GitHub activity overview",
-    dashboardComponent: GitHubCalendarWidget,
+    name: "GitHub",
+    description: "Shows GitHub activity overview & notification indicator",
+    dashboardComponent: GitHubWidget,
     settingsComponent: GitHubSettings,
 };
 
