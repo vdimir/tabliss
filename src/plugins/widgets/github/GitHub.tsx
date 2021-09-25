@@ -13,12 +13,14 @@ const GitHubCalendarWidget: FC<Props> = ({ data = defaultData, loader }) => {
             data.username,
             {
                 responsive: false,
-                global_stats: false,
+                global_stats: data.showSummary,
             }
-        ).finally(loader.pop);
+        ).finally(() => {
+            loader.pop()
+        });
     }, []);
 
-    return <div className="GitHubCalendar" />
+    return <a href="https://github.com/notifications" className="GitHubCalendar" />
 };
 
 export default GitHubCalendarWidget;

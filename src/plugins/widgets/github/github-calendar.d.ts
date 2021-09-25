@@ -1,2 +1,1 @@
 declare module "github-calendar";
-

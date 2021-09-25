@@ -9,8 +9,16 @@ const GitHubSettings: FC<Props> = ({ data = defaultData, setData }) => (
             <input
                 type="text"
                 value={data.username}
-                onChange={(event) => setData({ username: event.target.value })}
+                onChange={(event) => setData({ ...data, username: event.target.value })}
             />
+            <label>
+                <input
+                    type="checkbox"
+                    checked={data.showSummary}
+                    onChange={(event) => setData({ ...data, showSummary: !data.showSummary })}
+                />{" "}
+                Show summary overview
+            </label>
         </label>
     </div>
 );
