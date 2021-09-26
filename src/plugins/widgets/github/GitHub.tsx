@@ -42,11 +42,9 @@ const GitHubWidget: FC<Props> = ({ data = defaultData, loader, cache, setCache, 
     let hasNotifications = cache?.notifications && (cache?.notifications?.length > 0);
     return (
         <div className="GitHubWidget">
-            <a className="GitHubCalendar" href="http://github.com/nostifications" />
-
+            <a className="GitHubCalendar" onClick={() => doForceRefresh(!forceRefresh)} />
             <div className="github-notifications">
                 <div className="github-toggle-notifications">
-                    {!hasNotifications && <span onClick={() => doForceRefresh(!forceRefresh)} ><Icon name="refresh-cw" /></span>}
                     {hasNotifications &&
                         <span onClick={() => setData({ ...data, showNotificationItems: !data.showNotificationItems })}>
                             <Icon name={data.showNotificationItems ? "chevron-up" : "bell"} />
@@ -55,11 +53,6 @@ const GitHubWidget: FC<Props> = ({ data = defaultData, loader, cache, setCache, 
                 {hasNotifications && data.showNotificationItems && cache?.notifications?.map(n => renderNotification(n, data, setData))}
                 {hasNotifications && data.showNotificationItems && cache?.notifications && (cache.notifications.length > 1) &&
                     <div> - <a href="#" onClick={openAllNotifications}> Open All</a></div>}
-                {hasNotifications && data.showNotificationItems && <div style={{ fontSize: 12, textAlign: "center" }}>
-                    <a href="#" onClick={() => doForceRefresh(!forceRefresh)} >
-                        <span style={{ fontSize: 12, textAlign: "center" }}><Icon size="14" name="refresh-cw" /></span>
-                    </a>
-                </div>}
             </div>
         </div >
     );
