@@ -28,7 +28,7 @@ text.ContributionCalendar-label {
     position: relative;
 }
 
-.github-hide-notifications {
+.github-toggle-notifications {
     text-align: center;
     display: block;
     cursor: pointer;

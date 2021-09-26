@@ -6,7 +6,6 @@ export type Data = {
     showActivitySummary: boolean;
     apiKey: string;
     showNotificationItems: boolean;
-    notificationLastClick: number;
 };
 
 export type Cache = { timestamp: number; notifications?: Notifications };
@@ -18,5 +17,4 @@ export const defaultData: Data = {
     showActivitySummary: false,
     apiKey: '',
     showNotificationItems: false,
-    notificationLastClick: 0,
 };
