@@ -1,17 +1,22 @@
 import { API } from "../../types";
+import { Notifications } from "./api"
 
-type Data = {
+export type Data = {
     username: string;
-    showSummary: boolean;
+    showActivitySummary: boolean;
     apiKey: string;
+    showNotificationItems: boolean;
+    notificationLastClick: number;
 };
 
-export type Cache = { hasNotifications: boolean; timestamp: number };
+export type Cache = { timestamp: number; notifications?: Notifications };
 
 export type Props = API<Data, Cache>;
 
 export const defaultData: Data = {
     username: "joelshepherd",
-    showSummary: false,
+    showActivitySummary: false,
     apiKey: '',
+    showNotificationItems: false,
+    notificationLastClick: 0,
 };

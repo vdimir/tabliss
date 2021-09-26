@@ -15,8 +15,8 @@ const GitHubSettings: FC<Props> = ({ data = defaultData, setData }) => (
         <label>
             <input
                 type="checkbox"
-                checked={data.showSummary}
-                onChange={(event) => setData({ ...data, showSummary: !data.showSummary })}
+                checked={data.showActivitySummary}
+                onChange={(event) => setData({ ...data, showActivitySummary: !data.showActivitySummary })}
             />{" "}
             Show summary overview
         </label>
