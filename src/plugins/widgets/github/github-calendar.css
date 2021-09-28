@@ -31,9 +31,25 @@ text.ContributionCalendar-label {
 .github-toggle-notifications {
     text-align: center;
     display: block;
-    cursor: pointer;
     margin: 5px 0 5px 0;
+}
 
+.github-toggle-button {
+    display: inline-block;
+    cursor: pointer;
+    min-width: 30px;
+}
+
+.on-hover {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    opacity: 0.3;
+    transition: all 0.25s ease-out;
+}
+
+.on-hover:hover {
+    opacity: 1;
+    filter: none;
 }
 
 .github-notifications {

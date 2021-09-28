@@ -8,7 +8,7 @@ export type Data = {
     showNotificationItems: boolean;
 };
 
-export type Cache = { timestamp: number; notifications?: Notifications };
+export type Cache = { timestamp: number; since: number; notifications?: Notifications };
 
 export type Props = API<Data, Cache>;
 
