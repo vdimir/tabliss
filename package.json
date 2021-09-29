@@ -16,10 +16,12 @@
     "translations": "node ./scripts/translations.js"
   },
   "dependencies": {
+    "@octokit/rest": "^18.11.1",
     "@sentry/browser": "^6.11.0",
     "date-fns": "^2.23.0",
     "date-fns-tz": "^1.1.6",
     "feather-icons": "^4.28.0",
+    "github-calendar": "^2.2.7",
     "in-browser-language": "^1.0.3",
     "localforage": "^1.9.0",
     "normalize.css": "^8.0.1",
