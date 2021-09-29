@@ -1,11 +1,17 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
-import { useObjectUrl, useRotatingCache } from "../../../hooks";
+import { useObjectUrl, useRotatingCache, getCacheRotator } from "../../../hooks";
 import Backdrop from "../../../views/shared/Backdrop";
 import { getImage } from "./api";
 import { Props, defaultData } from "./types";
 import UnsplashCredit from "./UnsplashCredit";
+import { Icon } from "../../../views/shared";
+import { useDebounceToggle } from "../../../hooks"
+import { useFormatMessages } from "../../../hooks";
+import { messages, reloadIconName } from "../common";
+
 import "./Unsplash.sass";
+
 
 const Unsplash: FC<Props> = ({
   cache,
@@ -36,4 +42,37 @@ const Unsplash: FC<Props> = ({
   );
 };
 
-export default Unsplash;
+const UnsplashReloader: FC<Props> = ({
+  cache,
+  data = defaultData,
+  loader,
+  setCache,
+}) => {
+  const translated = useFormatMessages(messages);
+
+  // Do not allow click more frequent than once in `delay` ms
+  const [activeButton, debounseButton] = useDebounceToggle(true, 3000);
+
+  const rotateCache = getCacheRotator(() => getImage(data, loader), { cache, setCache })
+
+  const onClick = () => {
+    if (activeButton) {
+      debounseButton();
+      rotateCache();
+    }
+  };
+
+  return (
+    <a
+      className="on-hover"
+      onClick={onClick}
+      title={translated.reloadImgHint}
+      style={{ filter: activeButton ? '' : 'brightness(70%)', }}
+    >
+      <Icon name={reloadIconName} />
+    </a>
+  );
+};
+
+
+export { Unsplash, UnsplashReloader };

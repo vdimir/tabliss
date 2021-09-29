@@ -3,9 +3,12 @@ import { defineMessages } from "react-intl";
 import { useDispatch } from "react-redux";
 
 import { useFormatMessages, useFullscreen, useKeyPress } from "../../hooks";
+import Plugin from "../shared/Plugin";
 import { useSelector } from "../../store";
 import { toggleFocus, toggleSettings } from "../../store/actions";
 import { Icon } from "../shared";
+import { getConfig } from "../../plugins";
+
 import "./Overlay.sass";
 
 const messages = defineMessages({
@@ -48,38 +51,54 @@ const Overlay: FC = () => {
   const [isFullscreen, handleToggleFullscreen] = useFullscreen();
   if (handleToggleFullscreen) useKeyPress(handleToggleFullscreen, ["f"]);
 
+  const backgroundReloader = useSelector((state) => {
+    let background = state.data.backgrounds.find((plugin) => plugin.active);
+    if (!background)
+      return null;
+
+    const bgPlugin = getConfig(background.key);
+    if (!bgPlugin?.reloader)
+      return null;
+
+    return <Plugin id={background.id} component={bgPlugin.reloader} />
+  });
+
   return (
-    <div className="Overlay">
-      <a
-        onClick={handleToggleSettings}
-        title={`${translated.settingsHint} (S)`}
-      >
-        <Icon name="settings" />
-      </a>
+    <div>
+      <div className="Overlay">
+        <a
+          onClick={handleToggleSettings}
+          title={`${translated.settingsHint} (S)`}
+        >
+          <Icon name="settings" />
+        </a>
 
-      {pending && (
-        <span title={translated.loadingHint}>
-          <Icon name="zap" />
-        </span>
-      )}
-
-      <a
-        className="on-hover"
-        onClick={handleToggleFocus}
-        title={`${translated.focusHint} (W)`}
-      >
-        <Icon name={focus ? "eye-off" : "eye"} />
-      </a>
-
-      {handleToggleFullscreen && (
         <a
           className="on-hover"
-          onClick={handleToggleFullscreen}
-          title={`${translated.fullscreenHint} (F)`}
+          onClick={handleToggleFocus}
+          title={`${translated.focusHint} (W)`}
         >
-          <Icon name={isFullscreen ? "minimize-2" : "maximize-2"} />
+          <Icon name={focus ? "eye-off" : "eye"} />
         </a>
-      )}
+
+        {handleToggleFullscreen && (
+          <a
+            className="on-hover"
+            onClick={handleToggleFullscreen}
+            title={`${translated.fullscreenHint} (F)`}
+          >
+            <Icon name={isFullscreen ? "minimize-2" : "maximize-2"} />
+          </a>
+        )}
+        {backgroundReloader}
+      </div>
+      <div className="OverlayRight">
+        {pending && (
+          <span title={translated.loadingHint}>
+            <Icon name="zap" />
+          </span>
+        )}
+      </div>
     </div>
   );
 };
