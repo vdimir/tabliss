@@ -1,0 +1,33 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Build firefox extension
+        run: npm run build:firefox
+
+      - name: Pack with web-ext
+        run: |
+          npm install --global web-ext
+          cd ${{ github.workspace }}/dist/firefox
+          web-ext build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: tabliss-firefox
+          path: ${{ github.workspace }}/dist/firefox/web-ext-artifacts/tabliss-*.zip
+          if-no-files-found: error
