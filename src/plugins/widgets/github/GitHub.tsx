@@ -13,8 +13,16 @@ function getNotificationUrl(notification: Notifications[0]) {
     return notification.subject.url.replace("api.github.com/repos", "github.com").replace("/pulls/", "/pull/")
 }
 
-function renderNotification(notification: Notifications[0], data: Data, setData: (c: Data) => void) {
-    return <div>&bull; <a href={getNotificationUrl(notification)}> {notification.subject.title}</a></div>
+function renderNotification(notification: Notifications[0], callback: () => void) {
+    let href = getNotificationUrl(notification)
+    let onClick = (e: any) => {
+        callback();
+        // open link from handler because refresh is also required
+        e.preventDefault();
+        window.open(href, "_self")
+        return true;
+    }
+    return <div>&bull; <a href={href} onClick={onClick}> {notification.subject.title}</a></div>
 }
 
 const GitHubWidget: FC<Props> = ({ data = defaultData, loader, cache, setCache, setData }) => {
@@ -63,7 +71,7 @@ const GitHubWidget: FC<Props> = ({ data = defaultData, loader, cache, setCache, 
                         </span>
                     </span>}
                 </div>
-                {hasNotifications && data.showNotificationItems && cache?.notifications?.map(n => renderNotification(n, data, setData))}
+                {hasNotifications && data.showNotificationItems && cache?.notifications?.map(n => renderNotification(n, forceRefreshNotifications))}
                 {hasNotifications && data.showNotificationItems && cache?.notifications && (cache.notifications.length > 1) &&
                     <div> - <a href="#" onClick={openAllNotifications}> Open All</a></div>}
                 {hasNotifications && data.showNotificationItems && <div style={{ textAlign: "center", marginTop: "10px" }}>
