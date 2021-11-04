@@ -10,16 +10,23 @@ import { Icon } from "../../../views/shared";
 const EXPIRE_IN = 5 * 60 * 1000;
 
 function getNotificationUrl(notification: Notifications[0]) {
+    if (!notification.subject.url) {
+        /// can be empty for CI activity
+        return null
+    }
     return notification.subject.url.replace("api.github.com/repos", "github.com").replace("/pulls/", "/pull/")
 }
 
 function renderNotification(notification: Notifications[0], callback: () => void) {
     let href = getNotificationUrl(notification)
+    if (!href)
+        return
+
     let onClick = (e: any) => {
         callback();
         // open link from handler because refresh is also required
         e.preventDefault();
-        window.open(href, "_self")
+        href && window.open(href, "_self")
         return true;
     }
     return <div>&bull; <a href={href} onClick={onClick}> {notification.subject.title}</a></div>
@@ -54,7 +61,10 @@ const GitHubWidget: FC<Props> = ({ data = defaultData, loader, cache, setCache, 
     let openAllNotifications = () => {
         if (cache) {
             forceRefreshNotifications()
-            cache.notifications?.forEach(n => window.open(getNotificationUrl(n), "_blank"))
+            cache.notifications?.forEach(n => {
+                let href = getNotificationUrl(n)
+                href && window.open(href, "_blank")
+            })
             window.close()
         }
     }
